@@ -1,7 +1,7 @@
 import os
 from dotenv import load_dotenv, find_dotenv
 from slack_bolt import App
-from datetime import date
+from datetime import date, datetime
 from json import load
 
 load_dotenv(find_dotenv())
@@ -28,7 +28,20 @@ def get_message():
 
 @app.message("today")
 def post_message(say):
-    say(f'{get_date()}: {get_message()}')
+    try:
+        for entry in entries:
+            scheduled_timestamp = datetime.combine(
+                datetime.strptime(entry+" "),
+                datetime.time(hour=8, minute=30)
+            ).strftime('%s')
+
+            app.client.chat_scheduleMessage(
+                channel=CHANNEL,
+                text=f'{date.}: {get_message()}',
+                post_at=scheduled_timestamp
+            )
+    except SlackApiError:
+        print("Error")
 
 
 @app.event("channel_joined")
