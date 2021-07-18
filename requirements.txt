@@ -1,0 +1,4 @@
+python-dotenv~=0.18.0
+slack_bolt
+requests
+PyMuPDF
