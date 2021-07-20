@@ -23,11 +23,12 @@ def get_date():
 
 
 def get_message():
+    """ Function"""
     return entries[get_date()]['title']
 
 
 @app.message("today")
-def post_message(say):
+def post_message():
     try:
         for entry in entries:
             scheduled_timestamp = datetime.combine(
